@@ -20,6 +20,7 @@
         <table id="schedules" aria-describedby="schedules">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Subject</th>
                     <th>Content</th>
                     <th>Location</th>
@@ -29,6 +30,7 @@
             </thead>
             <tbody>
                 <tr v-for="(i, index) in schedules" :key="index" :class="{ completed: i.is_completed }">
+                    <td class="id">{{ index }}</td>
                     <td class="subject">{{ i.subject }}</td>
                     <td class="content">{{ i.content }}</td>
                     <td class="location">{{ i.location }}</td>
