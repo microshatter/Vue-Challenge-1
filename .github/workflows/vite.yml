@@ -1,8 +1,14 @@
 name: Deploy Vite site to GitHub Pages
 
+# Give the workflow the minimal permissions it needs so the token can push the gh-pages branch
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 on:
   push:
-    branches: [main]  # or your default branch
+    branches: [main]
 
 jobs:
   build-and-deploy:
@@ -11,11 +17,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          persist-credentials: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 24
+          node-version: '24'
 
       - name: Install dependencies
         run: npm install
@@ -26,5 +34,11 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages  # target branch
-          folder: dist      # build output folder
+          branch: gh-pages
+          folder: dist
+          # Prefer using a deploy PAT if you added one to repository secrets (DEPLOY_TOKEN).
+          # If you don't provide DEPLOY_TOKEN, GITHUB_TOKEN will be used.
+          token: ${{ secrets.DEPLOY_TOKEN || secrets.GITHUB_TOKEN }}
+          clean: true
+          force: true
+          attempt-limit: 3
