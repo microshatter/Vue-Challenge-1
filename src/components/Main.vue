@@ -1,30 +1,31 @@
 <template>
-    <h1>Learning Schedule</h1>
+    <h1>学习计划表</h1>
     <div class="header">
         <div class="">
-            <span>Subject</span>
-            <input type="text" v-model="forum_data.subject" placeholder="Enter subject here">
+            <span>学习科目</span>
+            <input type="text" v-model="forum_data.subject" placeholder="输入要学习的科目">
         </div>
         <div class="">
-            <span>Content</span>
-            <input type="text" v-model="forum_data.content" placeholder="Enter content here">
+            <span>学习内容</span>
+            <input type="text" v-model="forum_data.content" placeholder="输入要学习的内容">
         </div>
         <div class="">
-            <span>Location</span>
+            <span>学习地点</span>
             <input type="text" v-model="forum_data.location" placeholder="Select location">
         </div>
-        <button class="add-btn" @click="add">Add</button>
+        <button class="add-btn" @click="add">添加</button>
     </div>
 
     <div class="table">
         <table id="schedules" aria-describedby="schedules">
             <thead>
                 <tr>
-                    <th>Subject</th>
-                    <th>Content</th>
-                    <th>Location</th>
-                    <th>Completed</th>
-                    <th>Action</th>
+                    <th>ID</th>
+                    <th>学习科目</th>
+                    <th>学习内容</th>
+                    <th>学习地点</th>
+                    <th>完成状态</th>
+                    <th>操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +43,7 @@
                         {{ i.is_completed ? 'Yes' : 'No' }}
                     </td>
                     <td class="action-col">
-                        <a href="#" class="delete-btn" @click.prevent="remove_sch(index)">Delete</a>
+                        <a href="#" class="delete-btn" @click.prevent="remove_sch(index)">删除</a>
                     </td>
                 </tr>
             </tbody>
@@ -64,14 +65,14 @@ const forum_data = reactive({
 const schedules = ref([])
 
 const remove_sch = (index) => {
-    NotifyX.info('Removing schedule: ' + schedules.value[index].subject  + '...')
+    NotifyX.info('正在删除计划: ' + schedules.value[index].subject  + '...')
     schedules.value.splice(index, 1)
-    NotifyX.success('Schedule removed')
+    NotifyX.success('计划已删除')
 }
 
 const add = () => {
     if (forum_data.subject == '' || forum_data.content == '' || forum_data.location == '') {
-        NotifyX.error('Please fill all the fields', {
+        NotifyX.error('请填写所有的输入框', {
             duration: 5000
         })
         return
@@ -83,7 +84,7 @@ const add = () => {
         location: forum_data.location,
         is_completed: false
     })
-    NotifyX.success('Successfully added a schedule: ' + forum_data.subject)
+    NotifyX.success('计划添加成功: ' + forum_data.subject)
     forum_data.subject = ''
     forum_data.content = ''
     forum_data.location = ''
